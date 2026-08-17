@@ -51,7 +51,7 @@ body.no-custom-cursor{cursor:auto;}
 img,canvas{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;background:none;border:none;color:inherit;cursor:pointer;}
-.lock{overflow:hidden;height:100vh;}
+.lock{overflow:hidden;scrollbar-gutter:stable;}
 
 /* ============================================================
    UTILITIES
@@ -152,8 +152,8 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
   display:flex;align-items:center;justify-content:center;
   opacity:0;
 }
-.intro-shutter::before{
-  content:'';
+.intro-shutter i{
+  display:block;
   width:14px;height:14px;
   border-radius:50%;
   background:var(--brass);
@@ -510,11 +510,11 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
   z-index:900;
   background:rgba(10,10,11,.96);
   display:flex;align-items:center;justify-content:center;
-  opacity:0;visibility:hidden;
-  transition:opacity .35s var(--ease), visibility .35s var(--ease);
+  clip-path:circle(0% at 50% 50%);
+  pointer-events:none;
   cursor:pointer;
 }
-.portfolio-lightbox.active{opacity:1;visibility:visible;}
+.portfolio-lightbox.active{pointer-events:auto;}
 .portfolio-lightbox img{
   max-width:90vw;max-height:90vh;
   object-fit:contain;
@@ -703,9 +703,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
   padding:0 24px;
   opacity:0;
   transform:translateY(40px);
-  transition:opacity .8s var(--ease), transform .8s var(--ease);
 }
-.aperture-text.in-view{opacity:1;transform:translateY(0);}
 .aperture-text span{display:block;color:var(--ash);font-style:italic;font-weight:300;}
 .aperture-rig{
   position:relative;
@@ -894,10 +892,11 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
   font-size:12px;
   letter-spacing:.16em;
   text-transform:uppercase;
-  transition:background .3s var(--ease), color .3s var(--ease);
-  margin-bottom:70px;
+  transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
 }
 .contact-cta:hover{background:var(--bone);color:var(--void);}
+.contact-cta--outline{background:transparent;color:var(--bone);}
+.contact-cta--outline:hover{background:var(--brass);color:var(--void);border-color:var(--brass);}
 .contact-links{
   display:grid;
   grid-template-columns:repeat(4,auto);
@@ -941,7 +940,7 @@ footer{
 <!-- INTRO -->
 <div class="intro" id="intro">
   <div class="intro-mark" id="introMark">DISPATCHED FROM THE FIELD</div>
-  <div class="intro-shutter" id="introShutter"></div>
+  <div class="intro-shutter" id="introShutter"><i></i></div>
   <div class="intro-name" id="introName">RITIK JAIN</div>
   <button class="intro-skip" id="introSkip">Skip Intro</button>
 </div>
@@ -1058,7 +1057,7 @@ footer{
   <section class="about section-pad" id="about">
     <div class="wrap about-grid">
       <div class="about-portrait reveal">
-        <img src="ritik%20jain/WhatsApp%20Image%202026-08-17%20at%2011.56.32%20AM.jpeg" alt="Ritik Jain — Portrait">
+        <img src="portrait/portrait-01.jpeg" alt="Ritik Jain — Portrait">
         <div class="frame-sprockets"><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="frame-sprockets right"><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="about-portrait-label">
@@ -1110,9 +1109,14 @@ footer{
       <div class="eyebrow" style="margin-bottom:22px;">Availability — open for assignments</div>
       <h2 class="contact-title reveal">Have a story that<br>needs <em>a witness?</em></h2>
       <p class="contact-sub reveal">Based in Delhi, working nationally. Reach out for news coverage, government and political assignments, or editorial commissions.</p>
-      <a href="mailto:ritikjain492@gmail.com" class="contact-cta" data-cursor="OPEN">
-        Start a conversation <span aria-hidden="true">↗</span>
-      </a>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:70px;">
+        <a href="mailto:ritikjain492@gmail.com" class="contact-cta" data-cursor="OPEN">
+          Start a conversation <span aria-hidden="true">↗</span>
+        </a>
+        <a href="Ritik_Jain_RESUME.pdf" download class="contact-cta contact-cta--outline" data-cursor="DOWNLOAD">
+          Download Resume <span aria-hidden="true">↓</span>
+        </a>
+      </div>
       <div class="contact-links" id="contactLinks"></div>
     </div>
   </section>
@@ -1159,12 +1163,12 @@ var COVERAGE_AREAS = [
 ];
 
 var ASSIGNMENTS = [
-  { id:1, code:"UNI—24", title:"Senior Photography, UNI", org:"United News of India (UNI)", cat:"Photojournalism", year:"Current", role:"Senior Photographer", location:"New Delhi, India", desc:"Delivers on-the-ground news photography for live coverage and special assignments, capturing time-sensitive editorial moments under tight deadlines. Owns the end-to-end photo workflow — field capture through selection, editing and submission — for publication-ready quality across daily news cycles.", img:"photos/WhatsApp%20Image%202026-08-17%20at%2011.34.30%20AM.jpeg" },
-  { id:2, code:"PRG—MIN", title:"Ministerial & Government Coverage", org:"PARG India", cat:"Political & Government", year:"—", role:"Senior Freelance Photographer", location:"New Delhi, India", desc:"Official photographer for senior Union Ministers, including Ravneet Singh Bittu (Minister of State, Railways) and Satish Chandra Dubey (Minister of State, Coal and Mines). Captured official photography for high-profile government events and ministerial visits, working directly with cabinet-level officials.", img:"photos/WhatsApp%20Image%202026-08-17%20at%2011.37.52%20AM.jpeg" },
-  { id:3, code:"ANI—24/25", title:"Wire & Breaking News", org:"ANI Media Pvt. Ltd.", cat:"Photojournalism", year:"Jun 2024 – May 2025", role:"Photographer", location:"New Delhi, India", desc:"Delivered news photography assignments — including live coverage and special reports — for one of India's largest news agencies. Managed editing, selection and timely submission of high-quality photos to meet agency-wide deadlines.", img:"photos/WhatsApp%20Image%202026-08-17%20at%2011.37.56%20AM.jpeg" },
-  { id:4, code:"CBC—19/20", title:"International Assignment", org:"CBC Canada News", cat:"Documentary", year:"2019 – 2020", role:"Freelance Photographer / Videographer", location:"New Delhi, India", desc:"Captured and edited visual content for international news stories for a globally recognized broadcaster. Coordinated closely with editorial teams to meet tight production deadlines on cross-border assignments.", img:"photos/WhatsApp%20Image%202026-08-17%20at%2011.39.28%20AM%20(1).jpeg" },
-  { id:5, code:"PK—18/20", title:"Print & Digital News", org:"Punjab Kesari", cat:"Editorial", year:"Apr 2018 – Jun 2020", role:"Photographer", location:"New Delhi, India", desc:"Covered daily news and events for both print and digital editions of a leading Hindi-language newspaper. Delivered visually compelling photo stories under sustained deadline pressure.", img:"photos/WhatsApp%20Image%202026-08-17%20at%2011.39.28%20AM.jpeg" },
-  { id:6, code:"SMC—IN", title:"Independent Photo Essays", org:"Samachaar.in", cat:"Documentary", year:"—", role:"Founder / Photographer", location:"New Delhi, India", desc:"Founded and managed an independent photography news portal, producing and publishing original photo essays.", img:"photos/1.jpeg" }
+  { id:1, code:"UNI—24", title:"Senior Photography, UNI", org:"United News of India (UNI)", cat:"Photojournalism", year:"Current", role:"Senior Photographer", location:"New Delhi, India", desc:"Delivers on-the-ground news photography for live coverage and special assignments, capturing time-sensitive editorial moments under tight deadlines. Owns the end-to-end photo workflow — field capture through selection, editing and submission — for publication-ready quality across daily news cycles.", img:"photos/photo-02.jpeg" },
+  { id:2, code:"PRG—MIN", title:"Ministerial & Government Coverage", org:"PARG India", cat:"Political & Government", year:"—", role:"Senior Freelance Photographer", location:"New Delhi, India", desc:"Official photographer for senior Union Ministers, including Ravneet Singh Bittu (Minister of State, Railways) and Satish Chandra Dubey (Minister of State, Coal and Mines). Captured official photography for high-profile government events and ministerial visits, working directly with cabinet-level officials.", img:"photos/photo-03.jpeg" },
+  { id:3, code:"ANI—24/25", title:"Wire & Breaking News", org:"ANI Media Pvt. Ltd.", cat:"Photojournalism", year:"Jun 2024 – May 2025", role:"Photographer", location:"New Delhi, India", desc:"Delivered news photography assignments — including live coverage and special reports — for one of India's largest news agencies. Managed editing, selection and timely submission of high-quality photos to meet agency-wide deadlines.", img:"photos/photo-04.jpeg" },
+  { id:4, code:"CBC—19/20", title:"International Assignment", org:"CBC Canada News", cat:"Documentary", year:"2019 – 2020", role:"Freelance Photographer / Videographer", location:"New Delhi, India", desc:"Captured and edited visual content for international news stories for a globally recognized broadcaster. Coordinated closely with editorial teams to meet tight production deadlines on cross-border assignments.", img:"photos/photo-05.jpeg" },
+  { id:5, code:"PK—18/20", title:"Print & Digital News", org:"Punjab Kesari", cat:"Editorial", year:"Apr 2018 – Jun 2020", role:"Photographer", location:"New Delhi, India", desc:"Covered daily news and events for both print and digital editions of a leading Hindi-language newspaper. Delivered visually compelling photo stories under sustained deadline pressure.", img:"photos/photo-06.jpeg" },
+  { id:6, code:"SMC—IN", title:"Independent Photo Essays", org:"Samachaar.in", cat:"Documentary", year:"—", role:"Founder / Photographer", location:"New Delhi, India", desc:"Founded and managed an independent photography news portal, producing and publishing original photo essays.", img:"photos/photo-01.jpeg" }
 ];
 
 var TIMELINE = [
@@ -1300,33 +1304,33 @@ function renderContact(){
 
 /* PORTFOLIO — all 27 field photos */
 var PORTFOLIO_PHOTOS = [
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.34.30%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.37.52%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.37.56%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.39.28%20AM%20(1).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.39.28%20AM.jpeg",
-  "photos/1.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.06%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.07%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.08%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.09%20AM%20(1).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.09%20AM%20(2).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.09%20AM%20(3).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.09%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.10%20AM%20(1).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.10%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.11%20AM%20(1).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.11%20AM%20(2).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.11%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.12%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.22%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.27%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.34%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.36%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.38%20AM%20(1).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.38%20AM.jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.39%20AM%20(1).jpeg",
-  "photos/WhatsApp%20Image%202026-08-17%20at%2011.54.39%20AM.jpeg"
+  "photos/photo-02.jpeg",
+  "photos/photo-03.jpeg",
+  "photos/photo-04.jpeg",
+  "photos/photo-05.jpeg",
+  "photos/photo-06.jpeg",
+  "photos/photo-01.jpeg",
+  "photos/photo-07.jpeg",
+  "photos/photo-08.jpeg",
+  "photos/photo-09.jpeg",
+  "photos/photo-10.jpeg",
+  "photos/photo-11.jpeg",
+  "photos/photo-12.jpeg",
+  "photos/photo-13.jpeg",
+  "photos/photo-14.jpeg",
+  "photos/photo-15.jpeg",
+  "photos/photo-16.jpeg",
+  "photos/photo-17.jpeg",
+  "photos/photo-18.jpeg",
+  "photos/photo-19.jpeg",
+  "photos/photo-20.jpeg",
+  "photos/photo-21.jpeg",
+  "photos/photo-22.jpeg",
+  "photos/photo-23.jpeg",
+  "photos/photo-24.jpeg",
+  "photos/photo-25.jpeg",
+  "photos/photo-26.jpeg",
+  "photos/photo-27.jpeg"
 ];
 var TALL_INDICES = [0,5,9,14,19,24];
 
@@ -1358,10 +1362,21 @@ function openLightbox(idx){
   lbImg.alt = "Portfolio " + (idx+1);
   lightbox.classList.add("active");
   document.body.classList.add("lock");
+  if(window.gsap){
+    gsap.set(lightbox, { clipPath:"circle(0% at 50% 50%)" });
+    gsap.to(lightbox, { clipPath:"circle(140% at 50% 50%)", duration:.7, ease:"power3.inOut" });
+  }
 }
 function closeLightbox(){
-  lightbox.classList.remove("active");
-  document.body.classList.remove("lock");
+  if(window.gsap){
+    gsap.to(lightbox, { clipPath:"circle(0% at 50% 50%)", duration:.5, ease:"power3.inOut", onComplete:function(){
+      lightbox.classList.remove("active");
+      document.body.classList.remove("lock");
+    }});
+  } else {
+    lightbox.classList.remove("active");
+    document.body.classList.remove("lock");
+  }
 }
 function lbNav(dir){
   lbIndex = (lbIndex + dir + PORTFOLIO_PHOTOS.length) % PORTFOLIO_PHOTOS.length;
@@ -1555,33 +1570,46 @@ if(window.gsap && window.ScrollTrigger){
     });
   });
 
-  gsap.to(document.getElementById("apertureRig"), {
-    rotation:220,
-    ease:"none",
-    scrollTrigger:{ trigger:"#apertureSection", start:"top bottom", end:"bottom top", scrub:.6 }
-  });
-  gsap.fromTo(".aperture-core", { scale:.4, xPercent:-50, yPercent:-50 }, {
-    scale:1.5, xPercent:-50, yPercent:-50, ease:"none",
-    scrollTrigger:{ trigger:"#apertureSection", start:"top bottom", end:"bottom top", scrub:.6 }
-  });
+  var apertureRig = document.getElementById("apertureRig");
+  var apertureSection = document.getElementById("apertureSection");
+  var apertureText = apertureSection ? apertureSection.querySelector(".aperture-text") : null;
+  var apertureCore = apertureSection ? apertureSection.querySelector(".aperture-core") : null;
+  var bladeIs = document.querySelectorAll(".blade i");
 
-  // Aperture text fade-in on scroll
-  gsap.fromTo("#apertureSection .aperture-text",
-    { opacity:0, y:40 },
-    {
-      opacity:1, y:0, duration:1, ease:"power2.out",
-      scrollTrigger:{ trigger:"#apertureSection", start:"top 75%", toggleActions:"play none none reverse" }
-    }
-  );
+  if(apertureRig){
+    gsap.to(apertureRig, {
+      rotation:220,
+      ease:"none",
+      scrollTrigger:{ trigger:apertureSection, start:"top bottom", end:"bottom top", scrub:.6 }
+    });
+  }
 
-  // Blade opening animation
-  gsap.fromTo(".blade i",
-    { scaleX:0, transformOrigin:"left center" },
-    {
-      scaleX:1, ease:"none",
-      scrollTrigger:{ trigger:"#apertureSection", start:"top bottom", end:"center center", scrub:.4 }
-    }
-  );
+  if(apertureCore){
+    gsap.fromTo(apertureCore, { scale:.4, xPercent:-50, yPercent:-50 }, {
+      scale:1.5, xPercent:-50, yPercent:-50, ease:"none",
+      scrollTrigger:{ trigger:apertureSection, start:"top bottom", end:"bottom top", scrub:.6 }
+    });
+  }
+
+  if(apertureText){
+    gsap.fromTo(apertureText,
+      { opacity:0, y:40 },
+      {
+        opacity:1, y:0, duration:1, ease:"power2.out",
+        scrollTrigger:{ trigger:apertureSection, start:"top 75%", toggleActions:"play none none reverse" }
+      }
+    );
+  }
+
+  if(bladeIs.length){
+    gsap.fromTo(bladeIs,
+      { scaleX:0, transformOrigin:"left center" },
+      {
+        scaleX:1, ease:"none",
+        scrollTrigger:{ trigger:apertureSection, start:"top bottom", end:"center center", scrub:.4 }
+      }
+    );
+  }
 
   ScrollTrigger.create({
     trigger:"#wire",
@@ -1589,9 +1617,37 @@ if(window.gsap && window.ScrollTrigger){
     onToggle:function(){}
   });
 } else {
-  // No-JS-enhancement fallback: make reveal content visible immediately
   document.querySelectorAll(".reveal").forEach(function(el){ el.style.opacity = 1; el.style.transform = "none"; });
+  var at = document.querySelector("#apertureSection .aperture-text");
+  if(at){ at.style.opacity = 1; at.style.transform = "none"; }
+  document.querySelectorAll(".blade i").forEach(function(el){ el.style.transform = "scaleX(1)"; });
 }
+
+/* ============================================================
+   APERTURE TEXT — bulletproof visibility fallback
+   Runs independently of GSAP so the quote always appears.
+============================================================ */
+(function(){
+  var at = document.querySelector("#apertureSection .aperture-text");
+  if(!at) return;
+  if(window.gsap && window.ScrollTrigger) return;
+  if("IntersectionObserver" in window){
+    var seen = false;
+    var io = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting && !seen){
+        seen = true;
+        at.style.opacity = "1";
+        at.style.transform = "translateY(0)";
+        at.style.transition = "opacity .8s ease, transform .8s ease";
+        io.disconnect();
+      }
+    }, { threshold:0.2 });
+    io.observe(at);
+  } else {
+    at.style.opacity = "1";
+    at.style.transform = "none";
+  }
+})();
 
 /* ============================================================
    INTRO SEQUENCE
@@ -1616,17 +1672,14 @@ if(window.gsap && window.ScrollTrigger){
   skip.addEventListener("click", dismiss);
 
   if(window.gsap && !prefersReduced){
+    var dot = shutter.querySelector("i");
     var tl = gsap.timeline({ onComplete:function(){ setTimeout(dismiss, 500); } });
     tl.to(mark, { opacity:1, duration:.4 })
       .to(skip, { opacity:1, duration:.4 }, "<")
       .to(shutter, { opacity:1, duration:.3 }, "-=.1")
-      .to(shutter.querySelector ? shutter : shutter, {}, "+=0")
-      .to("#introShutter::before", {}, "+=0")
-      .to(shutter, { duration:.3 }, "+=0")
-      .to(name, { opacity:1, duration:.6, y:0 }, "-=.1")
-      .set(shutter, { css:{ "--x":1 } })
+      .to(dot, { scale:1, duration:.4, ease:"back.out(2)" })
+      .to(name, { opacity:1, duration:.6 }, "-=.1")
       .to({}, { duration:.9 });
-    // shutter dot pulse
     gsap.fromTo(shutter, { scale:1 }, { scale:1.06, duration:.5, repeat:1, yoyo:true, delay:.5 });
   } else {
     mark.style.opacity = 1; shutter.style.opacity = 1; name.style.opacity = 1; skip.style.opacity = 1;
